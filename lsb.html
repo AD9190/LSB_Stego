@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Learn about Least Significant Bit (LSB) steganography technique">
+  <title>LSB Steganography - Technique Explained</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet">
+  <style>
+    .technique-hero {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 120px 0 80px;
+      margin-top: 70px;
+    }
+    .content-section {
+      padding: 60px 0;
+      color: #dde6f8;
+    }
+    .example-box {
+      background: rgba(255, 255, 255, 0.04);
+      border-left: 4px solid #667eea;
+      border: 1px solid #2b3650;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+    }
+    .code-block {
+      background: #0b1220;
+      color: #dce7ff;
+      border: 1px solid #2b3650;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+      margin: 20px 0;
+    }
+    .pros-cons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin: 30px 0;
+    }
+    .pros-cons h4 {
+      color: #667eea;
+      margin-bottom: 15px;
+    }
+    .pros,
+    .cons {
+      background: #141d2d;
+      border: 1px solid #2b3650;
+      border-radius: 10px;
+      padding: 14px;
+    }
+    .pros-cons ul {
+      list-style: none;
+      padding: 0;
+    }
+    .pros-cons ul li {
+      padding: 8px 0;
+      padding-left: 25px;
+      position: relative;
+    }
+    .pros-cons ul li:before {
+      position: absolute;
+      left: 0;
+    }
+    .pros ul li:before {
+      content: "✓";
+      color: #28a745;
+      font-weight: bold;
+    }
+    .cons ul li:before {
+      content: "✗";
+      color: #dc3545;
+      font-weight: bold;
+    }
+    @media (max-width: 768px) {
+      .pros-cons {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar (same as index.html) -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Steganography Project</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="index.html#history">History</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle active" href="#" id="techniquesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Techniques</a>
+            <ul class="dropdown-menu" aria-labelledby="techniquesDropdown">
+              <li><a class="dropdown-item active" href="lsb.html">LSB Method</a></li>
+              <li><a class="dropdown-item" href="dct.html">DCT Method</a></li>
+              <li><a class="dropdown-item" href="pvd.html">Pixel Value Differencing</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="index.html#contact">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="technique-hero">
+    <div class="container text-center">
+      <h1 class="display-3 fw-bold mb-4">Least Significant Bit (LSB) Steganography</h1>
+      <p class="lead">The most popular and widely used steganography technique</p>
+    </div>
+  </section>
+
+  <!-- Content Section -->
+  <section class="content-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-10 mx-auto">
+          
+          <!-- Introduction -->
+          <h2 class="mb-4">What is LSB Steganography?</h2>
+          <p class="lead">
+            Least Significant Bit (LSB) steganography is a technique where the least significant bits of pixel values in an image are replaced with bits of the secret message. Since changes to the LSB cause minimal visual distortion, the human eye cannot detect the difference between the original and modified image.
+          </p>
+
+          <!-- How it Works -->
+          <h2 class="mt-5 mb-4">How Does LSB Work?</h2>
+          <p>
+            Digital images are composed of pixels, and each pixel is represented by binary values. In a standard RGB image, each pixel has three color channels (Red, Green, Blue), with each channel typically using 8 bits (0-255).
+          </p>
+
+          <div class="example-box">
+            <h5>Example: Hiding a Single Bit</h5>
+            <p><strong>Original Pixel (Red Channel):</strong></p>
+            <p>Decimal: 156 → Binary: <code>10011100</code></p>
+            <p><strong>Secret Bit to Hide:</strong> 1</p>
+            <p><strong>Modified Pixel:</strong></p>
+            <p>Binary: <code>10011101</code> → Decimal: 157</p>
+            <p class="mb-0"><em>The change from 156 to 157 is imperceptible to the human eye!</em></p>
+          </div>
+
+          <!-- Algorithm -->
+          <h2 class="mt-5 mb-4">LSB Embedding Algorithm</h2>
+          <ol>
+            <li><strong>Convert Secret Message:</strong> Transform the secret text/data into binary format</li>
+            <li><strong>Select Cover Image:</strong> Choose a suitable cover image (PNG, BMP - lossless formats)</li>
+            <li><strong>Extract Pixels:</strong> Access pixel values from the image</li>
+            <li><strong>Replace LSBs:</strong> For each bit in the secret message:
+              <ul>
+                <li>Read the pixel value</li>
+                <li>Replace the least significant bit with the message bit</li>
+                <li>Store the modified pixel</li>
+              </ul>
+            </li>
+            <li><strong>Add Delimiter:</strong> Include a special marker to indicate the end of the message</li>
+            <li><strong>Save Stego-Image:</strong> Save the modified image in a lossless format</li>
+          </ol>
+
+          <!-- Code Example -->
+          <h2 class="mt-5 mb-4">Python Implementation Example</h2>
+          <div class="code-block">
+<pre>def embed_lsb(image_path, message, output_path):
+    """Embed message using LSB steganography"""
+    import cv2
+    
+    # Read image
+    img = cv2.imread(image_path)
+    
+    # Convert message to binary
+    message_bin = ''.join(format(ord(char), '08b') for char in message)
+    message_bin += '1111111111111110'  # Delimiter
+    
+    # Embed message
+    data_index = 0
+    for i in range(img.shape[0]):
+        for j in range(img.shape[1]):
+            for k in range(3):  # RGB channels
+                if data_index < len(message_bin):
+                    # Modify LSB
+                    img[i, j, k] = (img[i, j, k] & 0xFE) | int(message_bin[data_index])
+                    data_index += 1
+    
+    # Save embedded image
+    cv2.imwrite(output_path, img)</pre>
+          </div>
+
+          <!-- Variations -->
+          <h2 class="mt-5 mb-4">LSB Variations</h2>
+          <div class="row">
+            <div class="col-md-6">
+              <h5><i class="fas fa-layer-group text-primary"></i> Multi-bit LSB</h5>
+              <p>Instead of modifying just 1 LSB, modify 2-3 LSBs per pixel for higher capacity (but less imperceptibility)</p>
+            </div>
+            <div class="col-md-6">
+              <h5><i class="fas fa-random text-primary"></i> Random LSB</h5>
+              <p>Use a pseudo-random sequence to select which pixels to modify, making detection harder</p>
+            </div>
+            <div class="col-md-6">
+              <h5><i class="fas fa-palette text-primary"></i> Color Channel Selection</h5>
+              <p>Modify only specific color channels (e.g., only Blue channel) for strategic embedding</p>
+            </div>
+            <div class="col-md-6">
+              <h5><i class="fas fa-adjust text-primary"></i> Adaptive LSB</h5>
+              <p>Adjust embedding based on pixel characteristics (edges vs. smooth areas)</p>
+            </div>
+          </div>
+
+          <!-- Pros and Cons -->
+          <h2 class="mt-5 mb-4">Advantages & Disadvantages</h2>
+          <div class="pros-cons">
+            <div class="pros">
+              <h4><i class="fas fa-check-circle"></i> Advantages</h4>
+              <ul>
+                <li>Simple to implement and understand</li>
+                <li>High embedding capacity</li>
+                <li>Minimal visual distortion</li>
+                <li>Fast processing speed</li>
+                <li>Works with various image formats</li>
+                <li>Low computational complexity</li>
+              </ul>
+            </div>
+            <div class="cons">
+              <h4><i class="fas fa-times-circle"></i> Disadvantages</h4>
+              <ul>
+                <li>Vulnerable to statistical attacks</li>
+                <li>Destroyed by JPEG compression</li>
+                <li>Requires lossless formats (PNG, BMP)</li>
+                <li>Chi-square attack can detect it</li>
+                <li>Histogram analysis can reveal changes</li>
+                <li>Not robust against image manipulation</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Detection Methods -->
+          <h2 class="mt-5 mb-4">How to Detect LSB Steganography</h2>
+          <div class="example-box">
+            <h5><i class="fas fa-chart-bar"></i> Histogram Analysis</h5>
+            <p>LSB embedding creates pairs of values in histograms. Statistical analysis can reveal these patterns.</p>
+          </div>
+          <div class="example-box">
+            <h5><i class="fas fa-calculator"></i> Chi-Square Attack</h5>
+            <p>Measures the difference between expected and observed frequencies of pixel values.</p>
+          </div>
+          <div class="example-box">
+            <h5><i class="fas fa-brain"></i> Machine Learning</h5>
+            <p>Train models on statistical features (kurtosis, skewness, entropy) to classify images as clean or stego.</p>
+          </div>
+
+          <!-- Applications -->
+          <h2 class="mt-5 mb-4">Real-World Applications</h2>
+          <ul>
+            <li><strong>Digital Watermarking:</strong> Copyright protection for images</li>
+            <li><strong>Secure Communication:</strong> Covert channels in hostile environments</li>
+            <li><strong>Authentication:</strong> Embedding metadata for verification</li>
+            <li><strong>Military & Intelligence:</strong> Classified information transmission</li>
+            <li><strong>Medical Imaging:</strong> Patient data embedded in diagnostic images</li>
+          </ul>
+
+          <!-- Call to Action -->
+          <div class="text-center mt-5 mb-4">
+            <a href="http://127.0.0.1:5000/test" class="btn btn-primary btn-lg" target="_blank">
+              <i class="fas fa-microscope"></i> Test LSB Detection Model
+            </a>
+            <a href="index.html" class="btn btn-outline-secondary btn-lg ms-3">
+              <i class="fas fa-home"></i> Back to Home
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <p>Anubrata Kundu | Ayan Dasgupta | Priyanshi Saha | Soham Sarkar</p>
+          <div class="mt-3">
+            <a href="https://github.com/AD9190/Steganography"><i class="fab fa-github mx-2"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Learn about Pixel Value Differencing (PVD) steganography technique">
+  <title>PVD Steganography - Technique Explained</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet">
+  <style>
+    .technique-hero {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      color: white;
+      padding: 120px 0 80px;
+      margin-top: 70px;
+    }
+    .content-section {
+      padding: 60px 0;
+      color: #dde6f8;
+    }
+    .example-box {
+      background: rgba(255, 255, 255, 0.04);
+      border-left: 4px solid #4facfe;
+      border: 1px solid #2b3650;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+    }
+    .code-block {
+      background: #0b1220;
+      color: #dce7ff;
+      border: 1px solid #2b3650;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+      margin: 20px 0;
+    }
+    .pros-cons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin: 30px 0;
+    }
+    .pros-cons h4 {
+      color: #4facfe;
+      margin-bottom: 15px;
+    }
+    .pros,
+    .cons {
+      background: #141d2d;
+      border: 1px solid #2b3650;
+      border-radius: 10px;
+      padding: 14px;
+    }
+    .pros-cons ul {
+      list-style: none;
+      padding: 0;
+    }
+    .pros-cons ul li {
+      padding: 8px 0;
+      padding-left: 25px;
+      position: relative;
+    }
+    .pros-cons ul li:before {
+      position: absolute;
+      left: 0;
+    }
+    .pros ul li:before {
+      content: "✓";
+      color: #28a745;
+      font-weight: bold;
+    }
+    .cons ul li:before {
+      content: "✗";
+      color: #dc3545;
+      font-weight: bold;
+    }
+    .range-table {
+      margin: 20px 0;
+    }
+    @media (max-width: 768px) {
+      .pros-cons {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Steganography Project</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="index.html#history">History</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle active" href="#" id="techniquesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Techniques</a>
+            <ul class="dropdown-menu" aria-labelledby="techniquesDropdown">
+              <li><a class="dropdown-item" href="lsb.html">LSB Method</a></li>
+              <li><a class="dropdown-item" href="dct.html">DCT Method</a></li>
+              <li><a class="dropdown-item active" href="pvd.html">Pixel Value Differencing</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="index.html#contact">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="technique-hero">
+    <div class="container text-center">
+      <h1 class="display-3 fw-bold mb-4">Pixel Value Differencing (PVD)</h1>
+      <p class="lead">Adaptive steganography based on pixel correlation and edge detection</p>
+    </div>
+  </section>
+
+  <!-- Content Section -->
+  <section class="content-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-10 mx-auto">
+          
+          <!-- Introduction -->
+          <h2 class="mb-4">What is PVD Steganography?</h2>
+          <p class="lead">
+            Pixel Value Differencing (PVD) is an adaptive steganography technique that exploits the correlation between neighboring pixels. The key idea is that human eyes are less sensitive to changes in edge areas (high pixel differences) compared to smooth areas (low pixel differences). PVD embeds more data in edge regions and less in smooth regions, achieving both high capacity and imperceptibility.
+          </p>
+
+          <!-- Core Concept -->
+          <h2 class="mt-5 mb-4">Core Concept: Exploiting Pixel Correlation</h2>
+          <p>
+            In natural images, adjacent pixels usually have similar values in smooth regions (like sky or walls) but vary significantly in edge regions (like object boundaries). PVD leverages this property:
+          </p>
+
+          <div class="example-box">
+            <h5>Key Principle</h5>
+            <p><strong>Smooth Region:</strong> Pixels: [120, 122] → Difference: 2 (small) → Embed fewer bits</p>
+            <p><strong>Edge Region:</strong> Pixels: [85, 145] → Difference: 60 (large) → Embed more bits</p>
+            <p class="mb-0"><em>The human visual system (HVS) is more tolerant to changes in edge areas!</em></p>
+          </div>
+
+          <!-- How it Works -->
+          <h2 class="mt-5 mb-4">How Does PVD Work?</h2>
+          <ol>
+            <li><strong>Pixel Pairing:</strong> Divide image into non-overlapping 2-pixel blocks (horizontal or vertical)</li>
+            <li><strong>Calculate Difference:</strong> For each pair (p₁, p₂), compute d = |p₁ - p₂|</li>
+            <li><strong>Range Classification:</strong> Map difference 'd' to a predefined range (determines embedding capacity)</li>
+            <li><strong>Embed Data:</strong> Replace 'd' with a new difference 'd'' that encodes secret bits</li>
+            <li><strong>Update Pixels:</strong> Adjust p₁ and p₂ to maintain the new difference d'</li>
+          </ol>
+
+          <!-- Range Table -->
+          <h2 class="mt-5 mb-4">Range Table: Wu & Tsai Method</h2>
+          <p>The original PVD method divides pixel differences into ranges. Each range can hide different amounts of data:</p>
+          
+          <table class="table table-bordered range-table">
+            <thead class="table-light">
+              <tr>
+                <th>Range</th>
+                <th>Difference Values</th>
+                <th>Range Width</th>
+                <th>Bits Embedded</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>R₁</td>
+                <td>0 - 7</td>
+                <td>8</td>
+                <td>3 bits</td>
+              </tr>
+              <tr>
+                <td>R₂</td>
+                <td>8 - 15</td>
+                <td>8</td>
+                <td>3 bits</td>
+              </tr>
+              <tr>
+                <td>R₃</td>
+                <td>16 - 31</td>
+                <td>16</td>
+                <td>4 bits</td>
+              </tr>
+              <tr>
+                <td>R₄</td>
+                <td>32 - 63</td>
+                <td>32</td>
+                <td>5 bits</td>
+              </tr>
+              <tr>
+                <td>R₅</td>
+                <td>64 - 127</td>
+                <td>64</td>
+                <td>6 bits</td>
+              </tr>
+              <tr>
+                <td>R₆</td>
+                <td>128 - 255</td>
+                <td>128</td>
+                <td>7 bits</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Algorithm Details -->
+          <h2 class="mt-5 mb-4">PVD Embedding Algorithm</h2>
+          <div class="example-box">
+            <h5>Step-by-Step Example</h5>
+            <p><strong>Step 1:</strong> Pixel pair: p₁ = 100, p₂ = 108</p>
+            <p><strong>Step 2:</strong> Calculate difference: d = |100 - 108| = 8</p>
+            <p><strong>Step 3:</strong> d = 8 falls in range R₂ [8-15], can embed 3 bits</p>
+            <p><strong>Step 4:</strong> Secret bits to embed: "101" (binary) = 5 (decimal)</p>
+            <p><strong>Step 5:</strong> New difference: d' = lower_bound + secret_value = 8 + 5 = 13</p>
+            <p><strong>Step 6:</strong> Update pixels:
+              <ul class="mb-0">
+                <li>m = ⌊(d' - d) / 2⌋ = ⌊(13 - 8) / 2⌋ = 2</li>
+                <li>If p₁ ≤ p₂: p₁' = p₁ - m = 98, p₂' = p₂ + (d' - d - m) = 111</li>
+                <li>New pair: [98, 111] with difference = 13 (encodes "101")</li>
+              </ul>
+            </p>
+          </div>
+
+          <!-- Code Example -->
+          <h2 class="mt-5 mb-4">Python Implementation Concept</h2>
+          <div class="code-block">
+<pre>def get_range(diff):
+    """Map difference to range and return embedding capacity"""
+    ranges = [(0,7,3), (8,15,3), (16,31,4), (32,63,5), (64,127,6), (128,255,7)]
+    for lower, upper, bits in ranges:
+        if lower <= diff <= upper:
+            return lower, upper, bits
+    return None
+
+def embed_pvd(image_path, message, output_path):
+    """Embed message using PVD steganography"""
+    import cv2
+    img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    message_bin = ''.join(format(ord(c), '08b') for c in message)
+    
+    data_index = 0
+    height, width = img.shape
+    
+    # Process pixel pairs horizontally
+    for i in range(height):
+        for j in range(0, width-1, 2):
+            if data_index >= len(message_bin):
+                break
+            
+            p1, p2 = int(img[i,j]), int(img[i,j+1])
+            diff = abs(p1 - p2)
+            
+            # Get range information
+            lower, upper, bits = get_range(diff)
+            
+            # Extract bits to embed
+            secret_bits = message_bin[data_index:data_index+bits]
+            secret_value = int(secret_bits, 2) if secret_bits else 0
+            
+            # Calculate new difference
+            new_diff = lower + secret_value
+            
+            # Update pixels
+            m = (new_diff - diff) // 2
+            if p1 <= p2:
+                p1_new = max(0, p1 - m)
+                p2_new = min(255, p2 + (new_diff - diff - m))
+            else:
+                p1_new = min(255, p1 + m)
+                p2_new = max(0, p2 - (new_diff - diff - m))
+            
+            img[i,j], img[i,j+1] = p1_new, p2_new
+            data_index += bits
+    
+    cv2.imwrite(output_path, img)</pre>
+          </div>
+
+          <!-- Variations -->
+          <h2 class="mt-5 mb-4">PVD Variations & Improvements</h2>
+          <div class="row">
+            <div class="col-md-6">
+              <h5><i class="fas fa-compress-arrows-alt text-primary"></i> Tri-way PVD</h5>
+              <p>Uses three consecutive pixels instead of two for better embedding efficiency</p>
+            </div>
+            <div class="col-md-6">
+              <h5><i class="fas fa-puzzle-piece text-primary"></i> Adaptive PVD</h5>
+              <p>Dynamically adjusts range table based on image characteristics</p>
+            </div>
+            <div class="col-md-6">
+              <h5><i class="fas fa-shield-alt text-primary"></i> LSB-PVD Hybrid</h5>
+              <p>Combines LSB replacement in smooth areas with PVD in edge areas</p>
+            </div>
+            <div class="col-md-6">
+              <h5><i class="fas fa-random text-primary"></i> Modulus Function PVD</h5>
+              <p>Uses modulus operations to avoid overflow/underflow issues</p>
+            </div>
+          </div>
+
+          <!-- Pros and Cons -->
+          <h2 class="mt-5 mb-4">Advantages & Disadvantages</h2>
+          <div class="pros-cons">
+            <div class="pros">
+              <h4><i class="fas fa-check-circle"></i> Advantages</h4>
+              <ul>
+                <li>Higher capacity than simple LSB</li>
+                <li>Better imperceptibility (HVS-adaptive)</li>
+                <li>Exploits natural image properties</li>
+                <li>Good PSNR (Peak Signal-to-Noise Ratio)</li>
+                <li>Resistant to visual attacks</li>
+                <li>Adaptive embedding strength</li>
+                <li>Lower distortion in smooth regions</li>
+              </ul>
+            </div>
+            <div class="cons">
+              <h4><i class="fas fa-times-circle"></i> Disadvantages</h4>
+              <ul>
+                <li>Vulnerable to histogram analysis</li>
+                <li>Pixel value overflow/underflow issues</li>
+                <li>Not robust against JPEG compression</li>
+                <li>Requires careful range table design</li>
+                <li>RS (Regular-Singular) attack can detect it</li>
+                <li>More complex than basic LSB</li>
+                <li>Extraction requires exact range table</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Detection Methods -->
+          <h2 class="mt-5 mb-4">How to Detect PVD Steganography</h2>
+          <div class="example-box">
+            <h5><i class="fas fa-chart-line"></i> Difference Histogram Analysis</h5>
+            <p>PVD creates discontinuities in the difference histogram at range boundaries. Analyzing these patterns can reveal embedding.</p>
+          </div>
+          <div class="example-box">
+            <h5><i class="fas fa-wave-square"></i> RS (Regular-Singular) Attack</h5>
+            <p>Measures smoothness changes in pixel groups. PVD alters the ratio of regular to singular groups.</p>
+          </div>
+          <div class="example-box">
+            <h5><i class="fas fa-brain"></i> Machine Learning Detection</h5>
+            <p>Train classifiers on features like edge strength distribution, local variance, and correlation coefficients.</p>
+          </div>
+
+          <!-- Comparison Table -->
+          <h2 class="mt-5 mb-4">PVD vs Other Techniques</h2>
+          <table class="table table-bordered">
+            <thead class="table-light">
+              <tr>
+                <th>Feature</th>
+                <th>LSB</th>
+                <th>DCT</th>
+                <th>PVD</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Capacity</td>
+                <td>High</td>
+                <td>Medium</td>
+                <td>High</td>
+              </tr>
+              <tr>
+                <td>Imperceptibility</td>
+                <td>Good</td>
+                <td>Very Good</td>
+                <td>Very Good</td>
+              </tr>
+              <tr>
+                <td>Adaptivity</td>
+                <td>No</td>
+                <td>Partial</td>
+                <td>Yes</td>
+              </tr>
+              <tr>
+                <td>Compression Robustness</td>
+                <td>Poor</td>
+                <td>Excellent</td>
+                <td>Poor</td>
+              </tr>
+              <tr>
+                <td>Complexity</td>
+                <td>Low</td>
+                <td>High</td>
+                <td>Medium</td>
+              </tr>
+              <tr>
+                <td>Best Use Case</td>
+                <td>Lossless formats</td>
+                <td>JPEG images</td>
+                <td>High-quality images</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Applications -->
+          <h2 class="mt-5 mb-4">Real-World Applications</h2>
+          <ul>
+            <li><strong>Secure Messaging:</strong> High-capacity covert communication in images</li>
+            <li><strong>Digital Watermarking:</strong> Copyright protection with adaptive embedding</li>
+            <li><strong>Medical Image Security:</strong> Hide patient records in high-resolution scans</li>
+            <li><strong>Military Intelligence:</strong> Embed tactical data in reconnaissance photos</li>
+            <li><strong>Cloud Storage:</strong> Secure file sharing via steganographic containers</li>
+            <li><strong>IoT Security:</strong> Embed authentication tokens in device images</li>
+          </ul>
+
+          <!-- Research Evolution -->
+          <h2 class="mt-5 mb-4">Evolution of PVD Research</h2>
+          <ul>
+            <li><strong>2003:</strong> Wu & Tsai introduced original PVD method</li>
+            <li><strong>2008:</strong> Chang & Tseng improved with tri-way PVD</li>
+            <li><strong>2010:</strong> LSB-PVD hybrid methods emerged for better security</li>
+            <li><strong>2015:</strong> Adaptive range tables based on image entropy</li>
+            <li><strong>2020+:</strong> Deep learning for optimal range selection and detection</li>
+          </ul>
+
+          <!-- Call to Action -->
+          <div class="text-center mt-5 mb-4">
+            <a href="http://127.0.0.1:5000/test" class="btn btn-primary btn-lg" target="_blank">
+              <i class="fas fa-microscope"></i> Test Detection Model
+            </a>
+            <a href="index.html" class="btn btn-outline-secondary btn-lg ms-3">
+              <i class="fas fa-home"></i> Back to Home
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <p>Anubrata Kundu | Ayan Dasgupta | Priyanshi Saha | Soham Sarkar</p>
+          <div class="mt-3">
+            <a href="https://github.com/AD9190/Steganography"><i class="fab fa-github mx-2"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

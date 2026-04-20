@@ -1,1 +1,1 @@
-# LSB_Stego
+# Steganography_Final

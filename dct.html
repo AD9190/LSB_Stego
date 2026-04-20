@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Learn about Discrete Cosine Transform (DCT) steganography technique">
+  <title>DCT Steganography - Technique Explained</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet">
+  <style>
+    .technique-hero {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+      padding: 120px 0 80px;
+      margin-top: 70px;
+    }
+    .content-section {
+      padding: 60px 0;
+      color: #dde6f8;
+    }
+    .example-box {
+      background: rgba(255, 255, 255, 0.04);
+      border-left: 4px solid #f5576c;
+      border: 1px solid #2b3650;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+    }
+    .code-block {
+      background: #0b1220;
+      color: #dce7ff;
+      border: 1px solid #2b3650;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+      margin: 20px 0;
+    }
+    .pros-cons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin: 30px 0;
+    }
+    .pros-cons h4 {
+      color: #f5576c;
+      margin-bottom: 15px;
+    }
+    .pros,
+    .cons {
+      background: #141d2d;
+      border: 1px solid #2b3650;
+      border-radius: 10px;
+      padding: 14px;
+    }
+    .pros-cons ul {
+      list-style: none;
+      padding: 0;
+    }
+    .pros-cons ul li {
+      padding: 8px 0;
+      padding-left: 25px;
+      position: relative;
+    }
+    .pros-cons ul li:before {
+      position: absolute;
+      left: 0;
+    }
+    .pros ul li:before {
+      content: "✓";
+      color: #28a745;
+      font-weight: bold;
+    }
+    .cons ul li:before {
+      content: "✗";
+      color: #dc3545;
+      font-weight: bold;
+    }
+    @media (max-width: 768px) {
+      .pros-cons {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Steganography Project</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="index.html#history">History</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle active" href="#" id="techniquesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Techniques</a>
+            <ul class="dropdown-menu" aria-labelledby="techniquesDropdown">
+              <li><a class="dropdown-item" href="lsb.html">LSB Method</a></li>
+              <li><a class="dropdown-item active" href="dct.html">DCT Method</a></li>
+              <li><a class="dropdown-item" href="pvd.html">Pixel Value Differencing</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="index.html#contact">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="technique-hero">
+    <div class="container text-center">
+      <h1 class="display-3 fw-bold mb-4">Discrete Cosine Transform (DCT)</h1>
+      <p class="lead">Robust frequency-domain steganography for JPEG images</p>
+    </div>
+  </section>
+
+  <!-- Content Section -->
+  <section class="content-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-10 mx-auto">
+          
+          <!-- Introduction -->
+          <h2 class="mb-4">What is DCT Steganography?</h2>
+          <p class="lead">
+            Discrete Cosine Transform (DCT) steganography is a frequency-domain technique that embeds secret data by modifying DCT coefficients of JPEG images. Unlike spatial-domain methods like LSB, DCT operates on transformed image data, making it more robust against compression and image processing attacks.
+          </p>
+
+          <!-- How it Works -->
+          <h2 class="mt-5 mb-4">How Does DCT Work?</h2>
+          <p>
+            DCT is the mathematical foundation of JPEG compression. It converts spatial image data into frequency components. The process involves:
+          </p>
+
+          <div class="example-box">
+            <h5>DCT Process Overview</h5>
+            <ol class="mb-0">
+              <li><strong>Block Division:</strong> Image divided into 8×8 pixel blocks</li>
+              <li><strong>DCT Transform:</strong> Each block converted to frequency domain (64 coefficients)</li>
+              <li><strong>Quantization:</strong> Coefficients divided by quantization table values</li>
+              <li><strong>Data Embedding:</strong> Secret bits embedded in mid-frequency coefficients</li>
+              <li><strong>Inverse Transform:</strong> Modified coefficients converted back to spatial domain</li>
+            </ol>
+          </div>
+
+          <!-- Why Frequency Domain? -->
+          <h2 class="mt-5 mb-4">Why Use Frequency Domain?</h2>
+          <ul>
+            <li><strong>Robustness:</strong> Survives JPEG compression and re-compression</li>
+            <li><strong>Imperceptibility:</strong> Modifications in frequency domain are less perceptible</li>
+            <li><strong>Adaptive Embedding:</strong> Can target specific frequency ranges</li>
+            <li><strong>Natural Fit:</strong> Works seamlessly with JPEG format (most common image format)</li>
+          </ul>
+
+          <!-- Algorithm -->
+          <h2 class="mt-5 mb-4">DCT Embedding Algorithm</h2>
+          <ol>
+            <li><strong>Load JPEG Image:</strong> Read the cover image and extract DCT coefficients</li>
+            <li><strong>Select Coefficients:</strong> Choose mid-frequency coefficients (avoid DC and high-frequency)
+              <ul>
+                <li><strong>DC Coefficient:</strong> Average intensity - too noticeable if changed</li>
+                <li><strong>Low Frequency:</strong> Basic image structure - visible if modified</li>
+                <li><strong>Mid Frequency:</strong> Details - ideal for embedding (robust + imperceptible)</li>
+                <li><strong>High Frequency:</strong> Noise - often quantized to zero in JPEG</li>
+              </ul>
+            </li>
+            <li><strong>Embed Secret Data:</strong> Modify selected coefficients using quantization index modulation (QIM) or coefficient replacement</li>
+            <li><strong>Inverse DCT:</strong> Transform modified coefficients back to pixel values</li>
+            <li><strong>Save Stego-Image:</strong> Compress and save as JPEG</li>
+          </ol>
+
+          <!-- Mathematical Foundation -->
+          <h2 class="mt-5 mb-4">Mathematical Foundation</h2>
+          <div class="example-box">
+            <h5>2D DCT Formula</h5>
+            <p>For an 8×8 block of pixels f(x,y), the DCT coefficient F(u,v) is:</p>
+            <p style="font-family: monospace; font-size: 14px; overflow-x: auto;">
+              F(u,v) = 1/4 × C(u) × C(v) × Σ[x=0 to 7] Σ[y=0 to 7] f(x,y) × cos[(2x+1)uπ/16] × cos[(2y+1)vπ/16]
+            </p>
+            <p class="mb-0">
+              Where C(u) = 1/√2 if u = 0, else C(u) = 1
+            </p>
+          </div>
+
+          <!-- Code Example -->
+          <h2 class="mt-5 mb-4">Python Implementation Concept</h2>
+          <div class="code-block">
+<pre>import cv2
+import numpy as np
+
+def embed_dct(image_path, message, output_path):
+    """Embed message using DCT steganography"""
+    # Read image
+    img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    
+    # Convert message to binary
+    message_bin = ''.join(format(ord(c), '08b') for c in message)
+    
+    # Divide image into 8x8 blocks
+    height, width = img.shape
+    data_index = 0
+    
+    for i in range(0, height-8, 8):
+        for j in range(0, width-8, 8):
+            if data_index >= len(message_bin):
+                break
+            
+            # Extract 8x8 block
+            block = img[i:i+8, j:j+8].astype(float)
+            
+            # Apply DCT
+            dct_block = cv2.dct(block)
+            
+            # Embed bit in mid-frequency coefficient (e.g., position [4,2])
+            if message_bin[data_index] == '1':
+                dct_block[4, 2] = abs(dct_block[4, 2]) + 10
+            else:
+                dct_block[4, 2] = abs(dct_block[4, 2]) - 10
+            
+            # Inverse DCT
+            img[i:i+8, j:j+8] = cv2.idct(dct_block)
+            data_index += 1
+    
+    cv2.imwrite(output_path, img)</pre>
+          </div>
+
+          <!-- Embedding Strategies -->
+          <h2 class="mt-5 mb-4">Embedding Strategies</h2>
+          <div class="row">
+            <div class="col-md-6">
+              <h5><i class="fas fa-exchange-alt text-primary"></i> Coefficient Replacement</h5>
+              <p>Directly replace LSB of DCT coefficient with secret bit</p>
+            </div>
+            <div class="col-md-6">
+              <h5><i class="fas fa-sliders-h text-primary"></i> Quantization Index Modulation (QIM)</h5>
+              <p>Quantize coefficients to even/odd values to represent 0/1</p>
+            </div>
+            <div class="col-md-6">
+              <h5><i class="fas fa-plus-minus text-primary"></i> Additive Embedding</h5>
+              <p>Add or subtract a value from coefficient based on secret bit</p>
+            </div>
+            <div class="col-md-6">
+              <h5><i class="fas fa-chart-line text-primary"></i> Adaptive DCT</h5>
+              <p>Adjust embedding strength based on block characteristics</p>
+            </div>
+          </div>
+
+          <!-- Pros and Cons -->
+          <h2 class="mt-5 mb-4">Advantages & Disadvantages</h2>
+          <div class="pros-cons">
+            <div class="pros">
+              <h4><i class="fas fa-check-circle"></i> Advantages</h4>
+              <ul>
+                <li>Robust against JPEG compression</li>
+                <li>Survives re-compression attacks</li>
+                <li>Works natively with JPEG format</li>
+                <li>More secure than spatial methods</li>
+                <li>Resistant to statistical attacks</li>
+                <li>Can withstand minor image edits</li>
+                <li>Better imperceptibility than LSB</li>
+              </ul>
+            </div>
+            <div class="cons">
+              <h4><i class="fas fa-times-circle"></i> Disadvantages</h4>
+              <ul>
+                <li>Lower embedding capacity than LSB</li>
+                <li>More complex implementation</li>
+                <li>Higher computational cost</li>
+                <li>Requires understanding of DCT</li>
+                <li>Block artifacts may appear</li>
+                <li>Vulnerable to specialized attacks (F5, OutGuess detection)</li>
+                <li>Difficult to extract without exact parameters</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Detection Methods -->
+          <h2 class="mt-5 mb-4">How to Detect DCT Steganography</h2>
+          <div class="example-box">
+            <h5><i class="fas fa-chart-area"></i> Coefficient Histogram Analysis</h5>
+            <p>Analyze distribution of DCT coefficients for anomalies. Embedding creates statistical artifacts.</p>
+          </div>
+          <div class="example-box">
+            <h5><i class="fas fa-project-diagram"></i> Calibration Attack</h5>
+            <p>Re-compress image and compare DCT coefficients with original to detect modifications.</p>
+          </div>
+          <div class="example-box">
+            <h5><i class="fas fa-brain"></i> Machine Learning Classifiers</h5>
+            <p>Train on features like coefficient correlation, block variance, and frequency distribution patterns.</p>
+          </div>
+
+          <!-- Famous Implementations -->
+          <h2 class="mt-5 mb-4">Notable DCT-Based Tools</h2>
+          <ul>
+            <li><strong>JSteg:</strong> First DCT steganography tool (1997) - embeds in LSB of quantized DCT coefficients</li>
+            <li><strong>F5:</strong> Advanced DCT method with matrix encoding and permutative straddling</li>
+            <li><strong>OutGuess:</strong> Preserves DCT coefficient statistics to evade detection</li>
+            <li><strong>MB (Model-Based):</strong> Uses statistical model to minimize detectability</li>
+          </ul>
+
+          <!-- Applications -->
+          <h2 class="mt-5 mb-4">Real-World Applications</h2>
+          <ul>
+            <li><strong>Digital Watermarking:</strong> Copyright protection that survives compression</li>
+            <li><strong>Broadcast Monitoring:</strong> Embed tracking codes in video frames</li>
+            <li><strong>Medical Imaging:</strong> Hide patient data in JPEG X-ray/MRI images</li>
+            <li><strong>Social Media:</strong> Covert communication via uploaded JPEG photos</li>
+            <li><strong>Authentication:</strong> Tamper detection in official documents</li>
+          </ul>
+
+          <!-- Comparison with LSB -->
+          <h2 class="mt-5 mb-4">DCT vs LSB Comparison</h2>
+          <table class="table table-bordered">
+            <thead class="table-light">
+              <tr>
+                <th>Aspect</th>
+                <th>DCT</th>
+                <th>LSB</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Domain</td>
+                <td>Frequency</td>
+                <td>Spatial</td>
+              </tr>
+              <tr>
+                <td>Robustness</td>
+                <td>High (survives compression)</td>
+                <td>Low (destroyed by JPEG)</td>
+              </tr>
+              <tr>
+                <td>Capacity</td>
+                <td>Lower</td>
+                <td>Higher</td>
+              </tr>
+              <tr>
+                <td>Complexity</td>
+                <td>High</td>
+                <td>Low</td>
+              </tr>
+              <tr>
+                <td>Best Format</td>
+                <td>JPEG</td>
+                <td>PNG, BMP</td>
+              </tr>
+              <tr>
+                <td>Security</td>
+                <td>Better</td>
+                <td>Good</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Call to Action -->
+          <div class="text-center mt-5 mb-4">
+            <a href="http://127.0.0.1:5000/test" class="btn btn-primary btn-lg" target="_blank">
+              <i class="fas fa-microscope"></i> Test Detection Model
+            </a>
+            <a href="index.html" class="btn btn-outline-secondary btn-lg ms-3">
+              <i class="fas fa-home"></i> Back to Home
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <p>Anubrata Kundu | Ayan Dasgupta | Priyanshi Saha | Soham Sarkar</p>
+          <div class="mt-3">
+            <a href="https://github.com/AD9190/Steganography"><i class="fab fa-github mx-2"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
